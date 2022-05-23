@@ -7,7 +7,15 @@ CMU Algorithmic Trading Group (ATG) Systems Team
 import numpy as np
 
 class Universe:
-    """Universe class encapsulating information of the instruments needed for a backtest run"""
+    """
+    Universe class encapsulating information of the instruments needed for a backtest run
+    Character for type of instrument:
+    c     Currency
+    f     Forwards and Futures
+    o     Options
+    p     Perpetual Contracts
+    s     Swaps
+    """
 
     def forward( self, t_idx: int, alpha: np.ndarray)-> np.ndarray:
         """
@@ -41,9 +49,17 @@ class TradeScheduler:
         """
         self.strat_schedulers = strat_schedulers
 
-    def update( self)-> int:
+    def update( self)-> str, int:
         """
-        A generator that yields the next t_idx as it is called
+        A generator that yields the tuple (strategy, t_idx) as it is called
+        >> Have to think about how to implement it most efficiently 
+        >> What if we want to update a subset of strategies at the same time 
+        """
+        raise NotImplementedError
+
+    def update_all( self)-> int:
+        """
+        A generator that yields t_idx to update all strategies
         """
         raise NotImplementedError
 
@@ -69,11 +85,20 @@ class StratLib:
         self.lib = {}
         self.alphas = {}
 
+    def forward( self, strat: str, t_idx: int)-> None:
+        """
+        The trade function called on a specific strat
+        >> Have to think about how to implement it most efficiently 
+        >> What if we want to update a subset of strategies at the same time 
+        """
+        self.alphas[strat] = self.lib[strat].forward(t_idx)
+
     def forward_all( self, t_idx: int)-> None:
         """
         The trade function called on the entire library of signals
         """
-        pass # TODO
+        for strat in self.lib:
+            self.alphas[strat] = self.lib[strat].forward(t_idx)
 
 
 class PortfolioOpt:
@@ -91,11 +116,14 @@ class PortfolioOpt:
 class Backtest:
     """Backtest class that runs a single backtest using given parameters and strat lib"""
 
-    def __init__( self, btsettings: dict, 
+    def __init__( self, btsettings: dict, # start_time, test_time, end_time, t_unit
                         trade_scheduler: TradeScheduler,
                         strat_lib: StratLib,
                         portfolio_opt: PortfolioOpt,):
-        pass # TODO
+        self.btsettings = btsettings
+        self.trade_scheduler = trade_scheduler
+        self.strat_lib = strat_lib
+        self.portfolio_opt = portfolio_opt
 
     def run(self):
       

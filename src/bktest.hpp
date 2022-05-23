@@ -194,7 +194,7 @@ Default Options
 > Universe defaults
   Character for type of instrument:
   c     Currency
-  ff    Forwards and Futures
+  f     Forwards and Futures
   o     Options
   p     Perpetual Contracts
   s     Swaps
