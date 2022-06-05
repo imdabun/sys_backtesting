@@ -33,11 +33,11 @@ class Strategy:
 class StratLib:
     """Container class for strategies"""
 
-    def __init__( self):
+    def __init__( self, lib):
         """
         Initialize with dictionary of strategies
         """
-        self.lib = {}
+        self.lib = lib
         self.alphas = {}
 
     def univ( self, universe: univ.Universe ):

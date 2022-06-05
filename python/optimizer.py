@@ -23,3 +23,12 @@ class PortfolioOpt:
         instruments based on signals in the strat library
         """
         raise NotImplementedError
+
+class NormSum(PortfolioOpt):
+    """Portfolio Optimizer that simply adds all normalized signals"""
+
+    def info (self):
+        print("Portfolio Optimizer that simply adds all normalized signals")
+
+    def forward(self, t_idx, strat_lib):
+        pass # TODO

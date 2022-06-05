@@ -64,3 +64,21 @@ class TradeScheduler:
         [USER IMPLEMENTED] A generator that yields t_idx to update all strategies
         """
         raise NotImplementedError
+
+
+class FixedTime(StratScheduler):
+    """A scheduler that updates on every fixed [lag] units of time"""
+
+    def __init__( self, lag):
+        """
+        Takes the update lag parameter
+        """
+        super().__init__()
+        self.lag = lag
+
+    def info( self):
+        print("Scheduler that updates every [lag] units of time")
+
+    def update( self):
+        for i in range(self.universe.start_time, self.universe.end_time, self.lag):
+            yield i

@@ -11,9 +11,21 @@ class Universe:
     Universe class encapsulating information of the instruments needed for a backtest run
     """
 
+    def init_t( self):
+        """
+        Initialize the time indices
+        """
+        raise NotImplementedError
+
     def info ( self):
         """
         Displays a description of the universe
+        """
+        raise NotImplementedError
+
+    def new_alpha( self):
+        """
+        Returns a default alpha for strategies to populate with signal values
         """
         raise NotImplementedError
 
@@ -30,10 +42,7 @@ class Universe:
         raise NotImplementedError
 
 
-def create_univ(tags: list, 
-                start_time: int,
-                burn_in: int,
-                end_time: int )-> Universe:
+def create_univ(tags: list)-> Universe:
     """"
     Creates a standard universe based on the tags, which is a char list
     Character for type of instrument:
@@ -44,10 +53,3 @@ def create_univ(tags: list,
     s     Swaps
     """
     return # TODO
-
-
-def custom_univ(start_time: int, burn_in: int, end_time: int)-> Universe:
-    """
-    [USER IMPLEMENTED] Custom universe which has to take in the 3 arguments
-    """
-    raise NotImplementedError

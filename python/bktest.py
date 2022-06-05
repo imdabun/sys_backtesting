@@ -14,27 +14,18 @@ class Backtest:
     """Backtest class that runs a single backtest using given parameters and strat lib"""
     OUT_LABELS = ["t_idx", "long_pnl", "short_pnl", "long_inst", "short_inst"]
 
-    def __init__( self, btsettings: dict,
-                        trade_scheduler: scheduler.TradeScheduler,
-                        strat_lib: strat.StratLib,
-                        portfolio_opt: optimizer.PortfolioOpt):
+    def __init__( self, btsettings: dict):
         self.btsettings = btsettings
-        self.trade_scheduler = trade_scheduler
-        self.strat_lib = strat_lib
-        self.portfolio_opt = portfolio_opt
         self.output = []
+        self.universe = self.btsettings['univ']
+        self.universe.init_t(self.btsettings['start_time'],
+                             self.btsettings['burn_in'],
+                             self.btsettings['end_time'])
+        self.trade_scheduler = self.btsettings['scheduler']
+        self.strat_lib = self.btsettings['strats']
+        self.portfolio_opt = self.btsettings['portopt']
 
-        self.universe = None
-        # create universe
-        if self.btsettings['univ'] == 'custom':
-            self.universe = univ.custom_univ(self.btsettings['start_time'],
-                                        self.btsettings['burn_in'],
-                                        self.btsettings['end_time'])
-        else:
-            self.universe = univ.create_univ(list(self.btsettings['univ']),
-                                        self.btsettings['start_time'],
-                                        self.btsettings['burn_in'],
-                                        self.btsettings['end_time'])
+        # set the universes for each of the other objects
         self.trade_scheduler.univ(self.universe)
         self.strat_lib.univ(self.universe)
         self.portfolio_opt.univ(self.universe)
