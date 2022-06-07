@@ -51,5 +51,8 @@ def create_univ(tags: list)-> Universe:
     o     Options
     p     Perpetual Contracts
     s     Swaps
+    Setting liquidity constraints
+    Truncation criteria
+    Usually might limit only to perpetual contracts
     """
     return # TODO

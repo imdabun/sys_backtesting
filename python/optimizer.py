@@ -17,7 +17,7 @@ class PortfolioOpt:
         """
         raise NotImplementedError
 
-    def forward( self, t_idx: int, strat_lib: strat.StratLib) -> np.ndarray:
+    def forward( self, t_idx: int, **kwargs) -> np.ndarray:
         """
         [USER IMPLEMENTED] Function that calculates values to assign to
         instruments based on signals in the strat library
